@@ -201,11 +201,11 @@ speculative decoding, breaking down the guarantees into three key areas:
    \- vLLM’s implementation of speculative decoding is algorithmically validated to be lossless. Key validation tests include:
 
     > - **Rejection Sampler Convergence**: Ensures that samples from vLLM’s rejection sampler align with the target
-    >   distribution. [View Test Code](https://github.com/vllm-project/vllm/blob/47b65a550866c7ffbd076ecb74106714838ce7da/tests/samplers/test_rejection_sampler.py#L252)
+    >   distribution. [View Test Code](../../../tests/v1/spec_decode/test_rejection_sampler_utils.py)
     > - **Greedy Sampling Equality**: Confirms that greedy sampling with speculative decoding matches greedy sampling
     >   without it. This verifies that vLLM's speculative decoding framework, when integrated with the vLLM forward pass and the vLLM rejection sampler,
-    >   provides a lossless guarantee. Almost all of the tests in [tests/spec_decode/e2e](../../../tests/v1/spec_decode)
-    >   verify this property using [this assertion implementation](https://github.com/vllm-project/vllm/blob/b67ae00cdbbe1a58ffc8ff170f0c8d79044a684a/tests/spec_decode/e2e/conftest.py#L291)
+    >   provides a lossless guarantee. Almost all of the tests in [tests/v1/e2e/spec_decode/](../../../tests/v1/e2e/spec_decode/)
+    >   verify this property using [this assertion implementation](../../../tests/v1/e2e/spec_decode/utils.py)
 
 3. **vLLM Logprob Stability**
    \- vLLM does not currently guarantee stable token log probabilities (logprobs). This can result in different outputs for the
@@ -223,8 +223,7 @@ For mitigation strategies, please refer to the FAQ entry *Can the output of a pr
 
 ## Known Feature Incompatibility
 
-1. Pipeline parallelism is not composable with speculative decoding as of `vllm<=0.15.0`
-2. Speculative decoding with draft models is not supported in `vllm<=0.10.0`
+1. Model Runner V2 does not support EAGLE3 with pipeline parallelism (`pipeline_parallel_size > 1`).
 
 ## Resources for vLLM contributors
 
